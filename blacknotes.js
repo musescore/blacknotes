@@ -35,7 +35,7 @@ function run()
       var cursor = new Cursor(curScore);
       for (var staff = 0; staff < curScore.staves; ++staff) {
             cursor.staff = staff;
-            for (var v = 0; v < 3; v++) {
+            for (var v = 0; v < 4; v++) {
                   cursor.voice = v;
                   cursor.rewind();  // set cursor to first chord/rest
 
