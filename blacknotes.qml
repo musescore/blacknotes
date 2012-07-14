@@ -18,6 +18,9 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
+import QtQuick 1.0
+import MuseScore 1.0
+
 MuseScore {
    menuPath: 'Plugins.Notes.Color notes in black'
    onRun: {
