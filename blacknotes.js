@@ -58,7 +58,7 @@ function run()
       }
 
 var mscorePlugin = {
-      menu: 'Plugins.Color notes in black',
+      menu: 'Plugins.Notes.Color notes in black',
       init: init,
       run:  run
       };
