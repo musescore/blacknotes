@@ -22,6 +22,8 @@ import QtQuick 1.0
 import MuseScore 1.0
 
 MuseScore {
+   version: "1.0"
+   description: "This plugin paints all notes in black"
    menuPath: 'Plugins.Notes.Color notes in black'
    onRun: {
       if (typeof curScore === 'undefined')
