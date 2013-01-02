@@ -48,7 +48,7 @@ function run()
                               var n     = chord.notes;
                               for (var i = 0; i < n; i++) {
                                     var note   = chord.note(i);
-                                    note.color = new QColor(black);
+                                    note.color = black;
                                     }
                               }
                         cursor.next();
