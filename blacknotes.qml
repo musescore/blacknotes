@@ -37,10 +37,11 @@ MuseScore {
 
          while (cursor.segment) {
             if (cursor.element && cursor.element.type == Element.CHORD) {
-               var notes = cursor.elements.notes;
+               var notes = cursor.element.notes;
                for (var i = 0; i < notes.length; i++) {
                   var note   = notes[i];
-                  note.color = black;
+                  if (note.color != black)
+                     note.color = black;
                }
             }
             cursor.next();
