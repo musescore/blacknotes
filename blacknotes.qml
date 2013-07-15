@@ -25,12 +25,15 @@ MuseScore {
    version: "1.0"
    description: "This plugin paints all notes in black"
    menuPath: 'Plugins.Notes.Color notes in black'
+   Cursor {
+      id: cursor
+      score: curScore
+   }
    onRun: {
       if (typeof curScore === 'undefined')
             Qt.quit;
       
       var black = "#000000";
-      var cursor = curScore.newCursor();
       for (var track = 0; track < curScore.ntracks; ++track) {
          cursor.track = track;
          cursor.rewind(0);  // set cursor to first chord/rest
