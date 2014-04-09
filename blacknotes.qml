@@ -44,6 +44,13 @@ MuseScore {
                      note.color = black;
                }
             }
+            else if (cursor.element && cursor.element.type == Element.REST) {
+               var rest = cursor.element;
+               if (rest.color != black)
+                  rest.color = black;
+               else
+                  rest.color = colors[cursor.voice % 4];
+            }
             cursor.next();
          }
       } // end loop tracks
