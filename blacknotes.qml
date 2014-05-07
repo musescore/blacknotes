@@ -48,8 +48,6 @@ MuseScore {
                var rest = cursor.element;
                if (rest.color != black)
                   rest.color = black;
-               else
-                  rest.color = colors[cursor.voice % 4];
             }
             cursor.next();
          }
