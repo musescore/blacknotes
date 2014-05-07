@@ -36,18 +36,18 @@ MuseScore {
          cursor.rewind(0);  // set cursor to first chord/rest
 
          while (cursor.segment) {
-            if (cursor.element && cursor.element.type == Element.CHORD) {
-               var notes = cursor.element.notes;
-               for (var i = 0; i < notes.length; i++) {
-                  var note   = notes[i];
-                  if (note.color != black)
-                     note.color = black;
+            if (cursor.element) {
+               var element = cursor.element;
+               if (typeof element.color !== "undefined" && element.color != black)
+                  element.color = black;
+               if (element.type == Element.CHORD) {
+                  var notes = element.notes;
+                  for (var i = 0; i < notes.length; i++) {
+                     var note   = notes[i];
+                     if (note.color != black)
+                        note.color = black;
+                  }
                }
-            }
-            else if (cursor.element && cursor.element.type == Element.REST) {
-               var rest = cursor.element;
-               if (rest.color != black)
-                  rest.color = black;
             }
             cursor.next();
          }
