@@ -41,6 +41,16 @@ MuseScore {
                if (typeof element.color !== "undefined" && element.color != black)
                   element.color = black;
                if (element.type == Element.CHORD) {
+                  var graceChords = element.graceNotes;
+                  for (var i = 0; i < graceChords.length; i++) {
+                     // iterate through all grace chords
+                     var notes = graceChords[i].notes;
+                     for (var i = 0; i < notes.length; i++) {
+                        var note = notes[i];
+                        if (note.color != black)
+                           note.color = black;
+                     }
+                  }
                   var notes = element.notes;
                   for (var i = 0; i < notes.length; i++) {
                      var note   = notes[i];
