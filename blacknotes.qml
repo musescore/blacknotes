@@ -4,7 +4,7 @@
 //
 //  Copyright (C)2010 Nicolas Froment (lasconic)
 //  Copyright (C)2014 Jörn Eichler (heuchi)
-//  Copyright (C)2012-2015 Joachim Schmitz (Jojo-Schmitz)
+//  Copyright (C)2012-2019 Joachim Schmitz (Jojo-Schmitz)
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -19,13 +19,24 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-import QtQuick 2.2
-import MuseScore 1.0
+import QtQuick 2.9
+import QtQuick.Dialogs 1.2
+import MuseScore 3.0
 
 MuseScore {
-   version:  "1.0"
+   version:  "3.0"
    description: "This plugin paints all chords and rests in black"
    menuPath: "Plugins.Notes.Color Notes in Black"
+
+   MessageDialog {
+      id: versionError
+      visible: false
+      title: qsTr("Unsupported MuseScore Version")
+      text: qsTr("This plugin needs MuseScore 3.0.2 or later")
+      onAccepted: {
+         Qt.quit()
+         }
+      }
 
    function blackenElement(element) {
       if (element.type == Element.REST)
@@ -40,7 +51,7 @@ MuseScore {
          if (element.stemSlash)
             element.stemSlash.color = "black"
          }
-       else if (element.type == Element.NOTE) {
+      else if (element.type == Element.NOTE) {
          element.color = "black"
          if (element.accidental)
             element.accidental.color = "black"
@@ -49,6 +60,8 @@ MuseScore {
                element.dots[i].color = "black"
             }
          }          
+      else
+         console.log("Unknown element type: " + element.type)         
       }
 
    // Apply the given function to all chords and rests in selection
@@ -116,7 +129,11 @@ MuseScore {
       }
 
    onRun: {
-      if (typeof curScore !== 'undefined')
+      console.log("Hello, Black Notes")
+      // check MuseScore version
+      if (mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)
+         versionError.open()
+      else
          applyToChordsAndRestsInSelection(blackenElement)            
       Qt.quit();
       }
