@@ -28,13 +28,26 @@ MuseScore {
    description: "This plugin paints all chords and rests in black"
    menuPath: "Plugins.Notes.Color Notes in Black"
 
+  
+   Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+           title = qsTr("Black Notes") ;
+           // thumbnailName = ".png";
+           categoryCode = "color-notes";
+        }
+    }
+
+
+  
+  
+
    MessageDialog {
       id: versionError
       visible: false
       title: qsTr("Unsupported MuseScore Version")
       text: qsTr("This plugin needs MuseScore 3.0.2 or later")
       onAccepted: {
-         Qt.quit()
+         quit()
          }
       }
 
@@ -129,12 +142,18 @@ MuseScore {
       }
 
    onRun: {
+   
+     curScore.startCmd()
+    
       console.log("Hello, Black Notes")
       // check MuseScore version
-      if (mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)
+     if ((mscoreMajorVersion < 3) || ((mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)))
          versionError.open()
       else
-         applyToChordsAndRestsInSelection(blackenElement)            
-      Qt.quit();
+         applyToChordsAndRestsInSelection(blackenElement)  
+        
+      curScore.endCmd()    
+                   
+      quit();
       }
 }
