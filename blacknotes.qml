@@ -26,8 +26,8 @@ import MuseScore 3.0
 MuseScore {
    version:  "3.0"
    description: "This plugin paints all chords and rests in black"
-  // menuPath: "Plugins.Notes.Color Notes in Black"
-  // title: "Black Notes"
+   menuPath: "Plugins.Notes.Color Notes in Black"
+
   
    Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
