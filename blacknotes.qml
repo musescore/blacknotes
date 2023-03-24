@@ -39,9 +39,9 @@ MuseScore {
       }
 
    function blackenElement(element) {
-      if (element.type == Element.REST)
+      if (element.type === Element.REST)
          element.color = "black"
-      else if (element.type == Element.CHORD) {
+      else if (element.type === Element.CHORD) {
          if (element.stem)
             element.stem.color = "black"
          if (element.hook)
@@ -51,7 +51,7 @@ MuseScore {
          if (element.stemSlash)
             element.stemSlash.color = "black"
          }
-      else if (element.type == Element.NOTE) {
+      else if (element.type === Element.NOTE) {
          element.color = "black"
          if (element.accidental)
             element.accidental.color = "black"
@@ -81,7 +81,7 @@ MuseScore {
       else {
          startStaff = cursor.staffIdx;
          cursor.rewind(2)
-         if (cursor.tick == 0) {
+         if (cursor.tick === 0) {
             // this happens when the selection includes
             // the last measure of the score.
             // rewind(2) goes behind the last segment (where
@@ -103,21 +103,21 @@ MuseScore {
 
             while (cursor.segment && (fullScore || cursor.tick < endTick)) {
                if (cursor.element) {
-                  if (cursor.element.type == Element.REST)
+                  if (cursor.element.type === Element.REST)
                      func(cursor.element)
-                  else if (cursor.element.type == Element.CHORD) {
+                  else if (cursor.element.type === Element.CHORD) {
                      func(cursor.element)
                      var graceChords = cursor.element.graceNotes;
                      for (var i = 0; i < graceChords.length; i++) {
                         // iterate through all grace chords
                         func(graceChords[i])
-                        var notes = graceChords[i].notes
+                        var gnotes = graceChords[i].notes
                         for (var j = 0; j < graceChords[i].notes.length; j++)
-                           func(graceChords[i].notes[j])
+                           func(graceChords[i].gnotes[j])
                         }
                      var notes = cursor.element.notes
-                     for (var i = 0; i < notes.length; i++) {
-                        var note = notes[i]
+                     for (var k = 0; k < notes.length; k++) {
+                        var note = notes[k]
                         func(note)
                         }
                      }
