@@ -47,7 +47,7 @@ MuseScore {
       title: qsTr("Unsupported MuseScore Version")
       text: qsTr("This plugin needs MuseScore 3.0.2 or later")
       onAccepted: {
-         quit()
+         (typeof(quit) === 'undefined' ? Qt.quit : quit)()
          }
       }
 
@@ -154,6 +154,6 @@ MuseScore {
         
       curScore.endCmd()    
                    
-      quit();
+      (typeof(quit) === 'undefined' ? Qt.quit : quit)()
       }
 }
