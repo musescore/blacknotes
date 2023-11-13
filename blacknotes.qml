@@ -28,20 +28,33 @@ MuseScore {
    description: "This plugin paints all chords and rests in black"
    menuPath: "Plugins.Notes.Color Notes in Black"
 
+  
+   Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+           title = qsTr("Black Notes") ;
+           // thumbnailName = ".png";
+           categoryCode = "color-notes";
+        }
+    }
+
+
+  
+  
+
    MessageDialog {
       id: versionError
       visible: false
       title: qsTr("Unsupported MuseScore Version")
       text: qsTr("This plugin needs MuseScore 3.0.2 or later")
       onAccepted: {
-         Qt.quit()
+         (typeof(quit) === 'undefined' ? Qt.quit : quit)()
          }
       }
 
    function blackenElement(element) {
-      if (element.type == Element.REST)
+      if (element.type === Element.REST)
          element.color = "black"
-      else if (element.type == Element.CHORD) {
+      else if (element.type === Element.CHORD) {
          if (element.stem)
             element.stem.color = "black"
          if (element.hook)
@@ -51,7 +64,7 @@ MuseScore {
          if (element.stemSlash)
             element.stemSlash.color = "black"
          }
-      else if (element.type == Element.NOTE) {
+      else if (element.type === Element.NOTE) {
          element.color = "black"
          if (element.accidental)
             element.accidental.color = "black"
@@ -81,7 +94,7 @@ MuseScore {
       else {
          startStaff = cursor.staffIdx;
          cursor.rewind(2)
-         if (cursor.tick == 0) {
+         if (cursor.tick === 0) {
             // this happens when the selection includes
             // the last measure of the score.
             // rewind(2) goes behind the last segment (where
@@ -103,21 +116,21 @@ MuseScore {
 
             while (cursor.segment && (fullScore || cursor.tick < endTick)) {
                if (cursor.element) {
-                  if (cursor.element.type == Element.REST)
+                  if (cursor.element.type === Element.REST)
                      func(cursor.element)
-                  else if (cursor.element.type == Element.CHORD) {
+                  else if (cursor.element.type === Element.CHORD) {
                      func(cursor.element)
                      var graceChords = cursor.element.graceNotes;
                      for (var i = 0; i < graceChords.length; i++) {
                         // iterate through all grace chords
                         func(graceChords[i])
-                        var notes = graceChords[i].notes
+                        var gnotes = graceChords[i].notes
                         for (var j = 0; j < graceChords[i].notes.length; j++)
-                           func(graceChords[i].notes[j])
+                           func(graceChords[i].gnotes[j])
                         }
                      var notes = cursor.element.notes
-                     for (var i = 0; i < notes.length; i++) {
-                        var note = notes[i]
+                     for (var k = 0; k < notes.length; k++) {
+                        var note = notes[k]
                         func(note)
                         }
                      }
@@ -129,12 +142,18 @@ MuseScore {
       }
 
    onRun: {
+   
+     curScore.startCmd()
+    
       console.log("Hello, Black Notes")
       // check MuseScore version
-      if (mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)
+     if ((mscoreMajorVersion < 3) || ((mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)))
          versionError.open()
       else
-         applyToChordsAndRestsInSelection(blackenElement)            
-      Qt.quit();
+         applyToChordsAndRestsInSelection(blackenElement)  
+        
+      curScore.endCmd()    
+                   
+      (typeof(quit) === 'undefined' ? Qt.quit : quit)()
       }
 }
